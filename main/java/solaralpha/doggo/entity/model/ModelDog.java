@@ -63,7 +63,7 @@ public class ModelDog extends ModelBase {
     public ModelRenderer Tail1;
 
     public ModelDog() {
-    	
+    	//TODO: Switch model rendering from living animations (more lag because a new box is being created, and save that for sit models. Still split husky and eskimo sit models. Assume that the correct stuff has already been rendered.
     }
 
     @Override
@@ -85,6 +85,8 @@ public class ModelDog extends ModelBase {
         this.Body.render(f5);
         GlStateManager.popMatrix();
     }
+    
+    
 
     /**
      * This is a helper function from Tabula to set the rotation of model parts
