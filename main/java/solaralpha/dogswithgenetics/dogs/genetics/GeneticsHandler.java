@@ -69,11 +69,11 @@ public class GeneticsHandler {
 	
 	public static int getSize(String genotype) {
 		if(genotype.substring(2, 4).equals("ss")) {
-			return 50;
+			return 1;
 		}else if(genotype.substring(2, 4).equals("SS")) {
-			return 75;
+			return 3;
 		}else {
-			return 100;
+			return 2;
 		}
 	}
 	

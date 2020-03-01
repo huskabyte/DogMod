@@ -3,6 +3,8 @@ package solaralpha.dogswithgenetics.dogs;
 import java.util.Random;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.EntityAgeable;
+import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -11,7 +13,6 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -21,9 +22,40 @@ import solaralpha.dogswithgenetics.item.ItemInfoStick;
 
 public class EntityDog extends EntityWolf{
 	private static final DataParameter<String> DOG_GENOTYPE = EntityDataManager.<String>createKey(EntityDog.class, DataSerializers.STRING);
+	private static final DataParameter<String> BREEDING_GENOTYPE = EntityDataManager.<String>createKey(EntityDog.class, DataSerializers.STRING);
 
 	public EntityDog(World worldIn) {
 		super(worldIn);
+	}
+	
+	public boolean canMateWith(EntityAnimal otherAnimal) {
+		if (otherAnimal == this) {
+			return false;
+		} else if (!this.isTamed()) {
+			return false;
+		} else if (!(otherAnimal instanceof EntityDog)) {
+			return false;
+		} else {
+			EntityDog dog = (EntityDog) otherAnimal;
+
+			if (!dog.isTamed()) {
+				return false;
+			} else if (dog.isSitting()) {
+				return false;
+			} else {
+				if (this.isInLove() && dog.isInLove()) {
+					this.dataManager.register(BREEDING_GENOTYPE, GeneticsHandler.createGenotypeFromParents(this.getGenotype(), dog.getGenotype()));
+					}
+				}
+				return this.isInLove() && dog.isInLove();
+			}
+		}
+	
+	@Override
+	public EntityDog createChild(EntityAgeable ageable) {
+		EntityDog dog = new EntityDog(world);
+		dog.setGenotype(this.dataManager.get(BREEDING_GENOTYPE));
+		return dog;
 	}
 	
 	protected void entityInit() {

@@ -37,6 +37,7 @@ public class Main {
 	@Mod.EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		GeneticsHandler.addBreed("Husky", "S", "Ppy", "H", "bgras");
+		GeneticsHandler.addBreed("Eskimo", "s", "Ppy", "E", "s");
 		EntityInit.registerEntity("dog", EntityDog.class, 120, 100, Color.WHITE.getRGB(), Color.GRAY.getRGB());
 		RenderingRegistry.registerEntityRenderingHandler(EntityDog.class, new IRenderFactory<EntityDog>() {
 
