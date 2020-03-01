@@ -108,7 +108,7 @@ public class ModelDog extends ModelBase {
     		return;
     	}
 
-		if (!((EntityDog) entityIn).isSitting() && GeneticsHandler.getBody(((EntityDog)entityIn).getGenotype()).equals("HH")) {
+		if (!((EntityDog) entityIn).isSitting()) {
 			this.FrontRightLeg2.rotateAngleX = MathHelper.cos(-limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
 			this.FrontLeftLeg2.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * -limbSwingAmount;
 			this.BackLeftLeg2.rotateAngleX = (float) (MathHelper.cos(-limbSwing * 0.6662F) * 1.4F * -limbSwingAmount
