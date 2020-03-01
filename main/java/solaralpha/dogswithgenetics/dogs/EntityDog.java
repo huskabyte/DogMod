@@ -17,12 +17,13 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import solaralpha.dogswithgenetics.dogs.genetics.GeneticsHandler;
+import solaralpha.dogswithgenetics.dogs.model.ModelHusky;
 import solaralpha.dogswithgenetics.gui.DogGuiScreen;
 import solaralpha.dogswithgenetics.item.ItemInfoStick;
 
-public class EntityDog extends EntityWolf{
-	private static final DataParameter<String> DOG_GENOTYPE = EntityDataManager.<String>createKey(EntityDog.class, DataSerializers.STRING);
-	private static final DataParameter<String> BREEDING_GENOTYPE = EntityDataManager.<String>createKey(EntityDog.class, DataSerializers.STRING);
+public abstract class EntityDog extends EntityWolf{
+	protected static final DataParameter<String> DOG_GENOTYPE = EntityDataManager.<String>createKey(EntityDog.class, DataSerializers.STRING);
+	protected static final DataParameter<String> BREEDING_GENOTYPE = EntityDataManager.<String>createKey(EntityDog.class, DataSerializers.STRING);
 
 	public EntityDog(World worldIn) {
 		super(worldIn);
@@ -43,6 +44,9 @@ public class EntityDog extends EntityWolf{
 			} else if (dog.isSitting()) {
 				return false;
 			} else {
+				if(GeneticsHandler.isMale(this.getGenotype()) == GeneticsHandler.isMale(this.getGenotype())) {
+					return false;
+				}else
 				if (this.isInLove() && dog.isInLove()) {
 					this.dataManager.register(BREEDING_GENOTYPE, GeneticsHandler.createGenotypeFromParents(this.getGenotype(), dog.getGenotype()));
 					}
@@ -51,17 +55,8 @@ public class EntityDog extends EntityWolf{
 			}
 		}
 	
-	@Override
-	public EntityDog createChild(EntityAgeable ageable) {
-		EntityDog dog = new EntityDog(world);
-		dog.setGenotype(this.dataManager.get(BREEDING_GENOTYPE));
-		return dog;
-	}
-	
 	protected void entityInit() {
 		super.entityInit();
-		Random r = new Random();
-		this.dataManager.register(DOG_GENOTYPE, GeneticsHandler.createRandomGenotypeByBreed(GeneticsHandler.breedList.get(r.nextInt(GeneticsHandler.breedList.size()))));
 	}
 	
 	@Override
@@ -92,7 +87,7 @@ public class EntityDog extends EntityWolf{
 		return this.dataManager.get(DOG_GENOTYPE);
 	}
 	
-	protected void setGenotype(String genotype) {
+	public void setGenotype(String genotype) {
 		this.dataManager.set(DOG_GENOTYPE, genotype);
 	}
 	

@@ -16,9 +16,11 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import solaralpha.dogswithgenetics.dogs.EntityDog;
 import solaralpha.dogswithgenetics.dogs.EntityInit;
-import solaralpha.dogswithgenetics.dogs.RenderDog;
+import solaralpha.dogswithgenetics.dogs.breeds.DogEskimo;
+import solaralpha.dogswithgenetics.dogs.breeds.DogHusky;
+import solaralpha.dogswithgenetics.dogs.breeds.RenderEskimo;
+import solaralpha.dogswithgenetics.dogs.breeds.RenderHusky;
 import solaralpha.dogswithgenetics.dogs.genetics.GeneticsHandler;
 import solaralpha.dogswithgenetics.init.StickStuff;
 import solaralpha.dogswithgenetics.item.IHasModel;
@@ -38,12 +40,20 @@ public class Main {
 	public void preInit(FMLPreInitializationEvent event) {
 		GeneticsHandler.addBreed("Husky", "S", "Ppy", "H", "bgras");
 		GeneticsHandler.addBreed("Eskimo", "s", "Ppy", "E", "s");
-		EntityInit.registerEntity("dog", EntityDog.class, 120, 100, Color.WHITE.getRGB(), Color.GRAY.getRGB());
-		RenderingRegistry.registerEntityRenderingHandler(EntityDog.class, new IRenderFactory<EntityDog>() {
+		EntityInit.registerEntity("husky", DogHusky.class, 120, 100, Color.WHITE.getRGB(), Color.GRAY.getRGB());
+		RenderingRegistry.registerEntityRenderingHandler(DogHusky.class, new IRenderFactory<DogHusky>() {
 
 			@Override
-			public Render<? super EntityDog> createRenderFor(RenderManager manager) {
-				return new RenderDog(manager);
+			public Render<? super DogHusky> createRenderFor(RenderManager manager) {
+				return new RenderHusky(manager);
+			}
+		});
+		EntityInit.registerEntity("eskimo", DogEskimo.class, 121, 100, Color.WHITE.getRGB(), Color.WHITE.getRGB());
+		RenderingRegistry.registerEntityRenderingHandler(DogEskimo.class, new IRenderFactory<DogEskimo>() {
+
+			@Override
+			public Render<? super DogEskimo> createRenderFor(RenderManager manager) {
+				return new RenderEskimo(manager);
 			}
 		});
 		
