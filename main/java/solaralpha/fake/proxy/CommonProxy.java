@@ -1,4 +1,4 @@
-package solaralpha.doggo.proxy;
+package solaralpha.fake.proxy;
 
 public class CommonProxy {
 	

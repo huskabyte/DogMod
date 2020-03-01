@@ -1,4 +1,4 @@
-package solaralpha.doggo.entity;
+package solaralpha.fake.entity;
 
 import java.util.ArrayList;
 import java.util.Random;

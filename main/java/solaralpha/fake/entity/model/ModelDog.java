@@ -1,4 +1,4 @@
-package solaralpha.doggo.entity.model;
+package solaralpha.fake.entity.model;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
@@ -7,7 +7,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.util.math.MathHelper;
-import solaralpha.doggo.entity.EntityDog;
+import solaralpha.fake.entity.EntityDog;
 
 /**
  * SiberianHusky - SolarAlpha
