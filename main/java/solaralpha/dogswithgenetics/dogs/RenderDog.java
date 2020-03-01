@@ -6,6 +6,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import solaralpha.dogswithgenetics.References;
+import solaralpha.dogswithgenetics.dogs.genetics.GeneticsHandler;
 import solaralpha.dogswithgenetics.dogs.model.ModelDog;
 
 @SideOnly(Side.CLIENT)
@@ -22,7 +23,19 @@ public class RenderDog extends RenderLiving<EntityDog>{
 
 	@Override
 	protected ResourceLocation getEntityTexture(EntityDog entity) {
-		return BLACK_HUSKY_TEXTURES;
+		if(GeneticsHandler.getCoatColorAlleles(entity.getGenotype()).contains("b")) {
+			return BLACK_HUSKY_TEXTURES;
+		}
+		if(GeneticsHandler.getCoatColorAlleles(entity.getGenotype()).contains("g")) {
+			return GRAY_HUSKY_TEXTURES;
+		}
+		if(GeneticsHandler.getCoatColorAlleles(entity.getGenotype()).contains("r")) {
+			return RED_HUSKY_TEXTURES;
+		}
+		if(GeneticsHandler.getCoatColorAlleles(entity.getGenotype()).contains("a")) {
+			return AGOUTI_HUSKY_TEXTURES;
+		}
+		return WHITE_HUSKY_TEXTURES;
 	}
 	
 	@Override

@@ -3,12 +3,18 @@ package solaralpha.dogswithgenetics.dogs.model;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.util.math.MathHelper;
+import solaralpha.dogswithgenetics.dogs.EntityDog;
+import solaralpha.dogswithgenetics.dogs.genetics.GeneticsHandler;
 
 /**
  * SiberianHusky - Undefined
  * Created using Tabula 7.1.0
  */
 public class ModelDog extends ModelBase {
+	private boolean rendered = false;
+	
     public ModelRenderer Body;
     public ModelRenderer Under;
     public ModelRenderer Butt;
@@ -41,7 +47,59 @@ public class ModelDog extends ModelBase {
     public ModelRenderer FrontRightLeg2;
 
     public ModelDog() {
-        this.textureWidth = 128;
+        
+    }
+
+    @Override
+    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) { 
+        this.Body.render(f5);
+    }
+
+    /**
+     * This is a helper function from Tabula to set the rotation of model parts
+     */
+    public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
+        modelRenderer.rotateAngleX = x;
+        modelRenderer.rotateAngleY = y;
+        modelRenderer.rotateAngleZ = z;
+    }
+    
+    @Override
+	public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw,
+			float headPitch, float scaleFactor, Entity entityIn) {
+
+		if (!((EntityDog) entityIn).isSitting()) {
+			this.FrontRightLeg2.rotateAngleX = MathHelper.cos(-limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
+			this.FrontLeftLeg2.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * -limbSwingAmount;
+			this.BackLeftLeg2.rotateAngleX = (float) (MathHelper.cos(-limbSwing * 0.6662F) * 1.4F * -limbSwingAmount
+					- (10 * Math.PI / 180));
+			this.BackRightLeg2.rotateAngleX = (float) (MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount
+					- (10 * Math.PI / 180));
+		}
+	}
+    
+    @Override
+    public void setLivingAnimations(EntityLivingBase entitylivingbaseIn, float limbSwing, float limbSwingAmount,
+    		float partialTickTime) {
+    	if(GeneticsHandler.getBody(((EntityDog)entitylivingbaseIn).getGenotype()).equals("HH") && !rendered) {
+    		husky();
+    		rendered = true;
+    	}
+    	if(((EntityDog)entitylivingbaseIn).isSitting()) {
+    		Body.rotateAngleX = (float) (-57 * Math.PI / 180);
+    		Butt.rotateAngleX = (float) (-25 * Math.PI / 180);
+    		Front.rotateAngleX = (float) (18 * Math.PI / 180);
+    		this.Body.setRotationPoint(0.0F, 15.0F, 0.0F);
+    	}else {
+    		Body.rotateAngleX = 0F;
+    		Butt.rotateAngleX = 0F;
+    		Front.rotateAngleX = 0F;
+    		this.Body.setRotationPoint(0.0F, 12.0F, 0.0F);
+    	}
+    }
+    
+    public void husky() {
+    	this.textureWidth = 128;
         this.textureHeight = 45;
         this.Under2 = new ModelRenderer(this, 71, 15);
         this.Under2.setRotationPoint(0.0F, 1.0F, -0.9F);
@@ -176,19 +234,9 @@ public class ModelDog extends ModelBase {
         this.FrontLeftLeg.addChild(this.FrontLeftLeg2);
         this.Tail3.addChild(this.Tail4);
     }
-
-    @Override
-    public void render(Entity entity, float f, float f1, float f2, float f3, float f4, float f5) { 
-        this.Body.render(f5);
-    }
-
-    /**
-     * This is a helper function from Tabula to set the rotation of model parts
-     */
-    public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
-        modelRenderer.rotateAngleX = x;
-        modelRenderer.rotateAngleY = y;
-        modelRenderer.rotateAngleZ = z;
+    
+    public void eskimo() {
+    	
     }
 }
 
